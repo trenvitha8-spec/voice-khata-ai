@@ -31,8 +31,13 @@ def normalize_language(language):
     raise ValueError(f"Unsupported language: {language}")
 
 
-def translate_message(text, target_language):
-    source_code = "autodetect"
+def translate_message(text, target_language, source_language=None):
+    # Use the detected source language instead of automatic detection.
+    if source_language:
+        source_code = normalize_language(source_language)
+    else:
+        source_code = "autodetect"
+
     target_code = normalize_language(target_language)
 
     params = urllib.parse.urlencode({
@@ -51,7 +56,9 @@ def translate_message(text, target_language):
         data = json.loads(response.read().decode("utf-8"))
 
     if data.get("responseStatus") != 200:
-        raise RuntimeError(data.get("responseDetails", "Translation failed"))
+        raise RuntimeError(
+            data.get("responseDetails", "Translation failed")
+        )
 
     return data["responseData"]["translatedText"]
 
@@ -61,7 +68,12 @@ def translate_detected_message(text, detected_language, target_language=None):
         if target_language is None:
             target_language = detected_language
 
-        translated_text = translate_message(text, target_language)
+        # Explicitly pass both source and target languages.
+        translated_text = translate_message(
+            text,
+            target_language,
+            detected_language
+        )
 
         return {
             "status": "success",

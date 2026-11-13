@@ -1,8 +1,7 @@
-fastapi
+﻿fastapi
 uvicorn[standard]
 python-dotenv
-sqlalchemy
-psycopg2-binary
-websockets
-httpx
-pydanticgoogle-genai
+pydantic
+google-genai
+gnani-vachana
+imageio-ffmpeg

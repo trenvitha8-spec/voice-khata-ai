@@ -1,3 +1,515 @@
+﻿
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: #061b2b;
+  color: #f8f5e9;
+  font-family: "Segoe UI", Arial, sans-serif;
+  display: flex;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 245px;
+  min-height: 100vh;
+  background: #092438;
+  border-right: 1px solid #17616a;
+  padding: 30px 18px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.brand-icon {
+  font-size: 48px;
+  color: #5ce0bd;
+  margin-bottom: 10px;
+}
+
+.brand h2 {
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.brand h2 span {
+  color: #5ce0bd;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-item {
+  border: none;
+  background: transparent;
+  color: #e5eee9;
+  padding: 15px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.25s;
+}
+
+.nav-item span {
+  font-size: 21px;
+}
+
+.nav-item:hover {
+  background: #123d4d;
+}
+
+.nav-item.active {
+  background: linear-gradient(100deg, #d9e9ad, #67d9a7);
+  color: #092438;
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px 10px;
+  color: #a5e9a2;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* Main content */
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 35px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.topbar h1 {
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.topbar p {
+  color: #b9cbd4;
+  font-size: 16px;
+}
+
+.shop-label {
+  border: 1px solid #1b7880;
+  padding: 12px 22px;
+  border-radius: 30px;
+  color: #f6e8bd;
+}
+
+.menu-button {
+  display: none;
+  background: #123c4d;
+  color: white;
+  border: 1px solid #267b7e;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Voice card */
+
+.voice-card {
+  min-height: 490px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #188b91;
+  border-radius: 30px;
+  background:
+    radial-gradient(ellipse at 50% 45%, #124b59 0%, transparent 55%),
+    linear-gradient(135deg, #0b354b, #102c49 65%, #0b514d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 25px;
+  box-shadow: 0 15px 40px #00121e66;
+}
+
+.language-control {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 2;
+}
+
+.language-control label {
+  color: #d0e5df;
+  font-size: 12px;
+}
+
+.language-control select {
+  background: #082b40;
+  border: 1px solid #4bbdb4;
+  color: #fff4d7;
+  border-radius: 25px;
+  padding: 11px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.language-control option {
+  background: #092438;
+}
+
+.voice-content {
+  text-align: center;
+  width: 100%;
+  max-width: 650px;
+  z-index: 1;
+}
+
+.voice-content h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 8px;
+}
+
+.voice-content h2 span {
+  color: #70e2b0;
+}
+
+.subtitle {
+  color: #f6e7c0;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+/* Waveform */
+
+.waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 90px;
+  margin: 15px 0;
+}
+
+.waveform span {
+  width: 4px;
+  height: calc(12px + (var(--i) % 7) * 9px);
+  border-radius: 10px;
+  background: #20c9bd;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.wave-active span {
+  animation: wave 0.65s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 0.04s);
+  opacity: 1;
+}
+
+@keyframes wave {
+  from { transform: scaleY(0.4); }
+  to { transform: scaleY(1.5); }
+}
+
+/* Microphone */
+
+.mic-button {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  border: 6px solid #70e2b0;
+  background: radial-gradient(circle, #155369, #071e32);
+  box-shadow: 0 0 25px #20c9bd88;
+  font-size: 57px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.mic-button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 38px #20c9bd;
+}
+
+.mic-listening {
+  border-color: #ffe2a0;
+  box-shadow: 0 0 35px #65e4bd;
+}
+
+.mic-status {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #26b9aa;
+  border-radius: 30px;
+  padding: 10px 25px;
+  color: #8af0d2;
+  font-size: 17px;
+}
+
+.status-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #91a7a4;
+}
+
+.status-dot.live {
+  background: #49e8a3;
+  box-shadow: 0 0 12px #49e8a3;
+}
+
+.voice-hint {
+  color: #c3d7d6;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.shop-illustration {
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  width: 155px;
+  padding: 17px;
+  text-align: center;
+  background: #f6e5b8;
+  color: #173b40;
+  border-radius: 18px;
+  transform: rotate(-3deg);
+}
+
+.shop-illustration span {
+  font-size: 35px;
+}
+
+.shop-illustration p {
+  font-weight: 700;
+}
+
+.shop-illustration small {
+  font-style: italic;
+}
+
+/* Quick actions */
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.action-card {
+  min-height: 105px;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.25s;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+}
+
+.action-card span {
+  font-size: 30px;
+}
+
+.action-card strong {
+  font-size: 15px;
+}
+
+.action-card.green {
+  background: linear-gradient(120deg, #176b63, #219b7e);
+  color: #f5f1d9;
+  border-color: #4bd5a8;
+}
+
+.action-card.cream {
+  background: #f5e4b9;
+  color: #173849;
+  border-color: #e7c984;
+}
+
+/* Bottom tip */
+
+.tip {
+  text-align: center;
+  margin-top: 35px;
+  color: #dce5d8;
+  font-size: 15px;
+}
+
+.page-notice {
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 18px;
+  background: #102f42;
+  border: 1px solid #267b7e;
+}
+
+.page-notice p {
+  margin: 12px 0;
+  color: #c3d7d6;
+}
+
+.page-notice button {
+  padding: 10px 18px;
+  background: #219b7e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Mobile navigation */
+
+.menu-overlay {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .sidebar {
+    width: 205px;
+  }
+
+  .main-content {
+    padding: 22px;
+  }
+
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shop-illustration {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    bottom: 0;
+    width: 245px;
+    transition: left 0.3s;
+  }
+
+  .sidebar.sidebar-open {
+    left: 0;
+  }
+
+  .menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #0009;
+    z-index: 9;
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .menu-button {
+    display: block;
+  }
+
+  .topbar {
+    gap: 12px;
+  }
+
+  .topbar h1 {
+    font-size: 21px;
+  }
+
+  .topbar p {
+    font-size: 12px;
+  }
+
+  .shop-label {
+    display: none;
+  }
+
+  .voice-card {
+    min-height: 520px;
+    padding: 110px 12px 25px;
+  }
+
+  .language-control {
+    top: 18px;
+    right: 15px;
+  }
+
+  .mic-button {
+    width: 125px;
+    height: 125px;
+    font-size: 48px;
+  }
+
+  .waveform {
+    gap: 3px;
+  }
+
+  .waveform span {
+    width: 3px;
+  }
+
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .action-card {
+    min-height: 90px;
+    padding: 10px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .action-card span {
+    font-size: 24px;
+  }
+
+  .action-card strong {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .tip {
+    line-height: 1.7;
+  }
+}
 /* =========================================
    SHOP MANAGEMENT PAGES
 ========================================= */

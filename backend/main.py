@@ -267,83 +267,67 @@ def confirm(request: ConfirmationRequest):
 # TEXT TRANSLATION
 # --------------------------------------------------
 
+
 @app.post("/translate")
 def translate(request: TranslationRequest):
     try:
         result = translate_message(
             request.message,
-            request.source_language,
-            request.target_language
+            request.target_language,
+            request.source_language
         )
 
-        if result["status"] == "error":
-            raise HTTPException(
-                status_code=500,
-                detail=result["message"]
-            )
-
-        return result
-
-    except HTTPException:
-        raise
+        return {
+            "status": "success",
+            "original_message": request.message,
+            "translated_message": result,
+            "source_language": request.source_language,
+            "target_language": request.target_language
+        }
 
     except Exception as e:
         print("TEXT TRANSLATION ERROR:", repr(e))
 
         raise HTTPException(
             status_code=500,
-            detail="Text translation failed."
+            detail=str(e)
         )
-
 
 # --------------------------------------------------
 # TWO-WAY TEXT CONVERSATION
 # --------------------------------------------------
 
+
 @app.post("/conversation")
 def conversation(request: ConversationRequest):
     try:
+        # Customer message → Shopkeeper language
         customer_translation = translate_message(
             request.customer_message,
-            request.customer_language,
-            request.shopkeeper_language
-        )
-
-        if customer_translation["status"] == "error":
-            raise HTTPException(
-                status_code=500,
-                detail="Customer message translation failed."
-            )
-
-        shopkeeper_translation = translate_message(
-            request.shopkeeper_reply,
             request.shopkeeper_language,
             request.customer_language
         )
 
-        if shopkeeper_translation["status"] == "error":
-            raise HTTPException(
-                status_code=500,
-                detail="Shopkeeper reply translation failed."
-            )
+        # Shopkeeper reply → Customer language
+        shopkeeper_translation = translate_message(
+            request.shopkeeper_reply,
+            request.customer_language,
+            request.shopkeeper_language
+        )
 
         return {
             "status": "success",
-            "customer_to_shopkeeper": customer_translation["translated_message"],
-            "shopkeeper_to_customer": shopkeeper_translation["translated_message"]
+            "customer_to_shopkeeper": customer_translation,
+            "shopkeeper_to_customer": shopkeeper_translation
         }
-
-    except HTTPException:
-        raise
 
     except Exception as e:
         print("CONVERSATION ERROR:", repr(e))
 
         raise HTTPException(
             status_code=500,
-            detail="Conversation translation failed."
+            detail=str(e)
         )
-
 
 # --------------------------------------------------
 # SPEECH TO TEXT
